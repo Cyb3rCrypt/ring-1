@@ -86,6 +86,7 @@ impl SystemRandom {
     pub fn new() -> SystemRandom { SystemRandom }
 }
 
+#[cfg(not(target_env = "sgx"))]
 impl SecureRandom for SystemRandom {
     #[inline(always)]
     fn fill(&self, dest: &mut [u8]) -> Result<(), error::Unspecified> { fill_impl(dest) }
@@ -95,6 +96,7 @@ impl sealed::Sealed for SystemRandom {}
 
 #[cfg(all(
     feature = "use_heap",
+    not(target_env = "sgx"),
     not(any(
         target_os = "linux",
         target_os = "macos",
@@ -105,15 +107,18 @@ impl sealed::Sealed for SystemRandom {}
 ))]
 use self::urandom::fill as fill_impl;
 
+#[cfg(not(target_env = "sgx"))]
 #[cfg(any(
     all(target_os = "linux", not(feature = "dev_urandom_fallback")),
     windows
 ))]
 use self::sysrand::fill as fill_impl;
 
+#[cfg(not(target_env = "sgx"))]
 #[cfg(all(target_os = "linux", feature = "dev_urandom_fallback"))]
 use self::sysrand_or_urandom::fill as fill_impl;
 
+#[cfg(not(target_env = "sgx"))]
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use self::darwin::fill as fill_impl;
 
@@ -122,6 +127,7 @@ use self::fuchsia::fill as fill_impl;
 
 use crate::sealed;
 
+#[cfg(not(target_env = "sgx"))]
 #[cfg(target_os = "linux")]
 mod sysrand_chunk {
     use crate::error;
@@ -158,6 +164,7 @@ mod sysrand_chunk {
     }
 }
 
+#[cfg(not(target_env = "sgx"))]
 #[cfg(windows)]
 mod sysrand_chunk {
     use crate::{error, polyfill};
@@ -183,6 +190,7 @@ mod sysrand_chunk {
     }
 }
 
+#[cfg(not(target_env = "sgx"))]
 #[cfg(any(target_os = "linux", windows))]
 mod sysrand {
     use super::sysrand_chunk::chunk;
@@ -199,6 +207,7 @@ mod sysrand {
 }
 
 // Keep the `cfg` conditions in sync with the conditions in lib.rs.
+#[cfg(not(target_env = "sgx"))]
 #[cfg(all(
     feature = "use_heap",
     any(target_os = "redox", unix),
@@ -234,6 +243,7 @@ mod urandom {
 }
 
 // Keep the `cfg` conditions in sync with the conditions in lib.rs.
+#[cfg(not(target_env = "sgx"))]
 #[cfg(all(target_os = "linux", feature = "dev_urandom_fallback"))]
 mod sysrand_or_urandom {
     use crate::error;
@@ -264,6 +274,7 @@ mod sysrand_or_urandom {
     }
 }
 
+#[cfg(not(target_env = "sgx"))]
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 mod darwin {
     use crate::error;
@@ -316,6 +327,7 @@ mod fuchsia {
 mod tests {
     use crate::rand::{self, SecureRandom};
 
+    #[cfg(not(target_env = "sgx"))]
     #[test]
     fn test_system_random_lengths() {
         // Test that `fill` succeeds for various interesting lengths. `256` and
