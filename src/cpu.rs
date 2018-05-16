@@ -26,6 +26,7 @@ pub(crate) struct Features(());
 pub(crate) fn features() -> Features {
     // We don't do runtime feature detection on iOS. instead some features are
     // assumed to be present; see `arm::Feature`.
+    #[cfg(not(target_env = "sgx"))]
     #[cfg(not(target_os = "ios"))]
     {
         static INIT: spin::Once<()> = spin::Once::new();
