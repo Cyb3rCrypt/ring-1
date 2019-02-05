@@ -75,7 +75,7 @@ open OUT,"| \"$^X\" $xlate $flavour $output";
 
 $code.=<<___;
 .text
-
+.section .rodata
 .extern GFp_ia32cap_P
 
 .align	64
@@ -107,6 +107,7 @@ $code.=<<___;
 .Lsixteen:
 .long	16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16
 .asciz	"ChaCha20 for x86_64, CRYPTOGAMS by <appro\@openssl.org>"
+.text
 ___
 
 sub AUTOLOAD()          # thunk [simplified] 32-bit style perlasm
