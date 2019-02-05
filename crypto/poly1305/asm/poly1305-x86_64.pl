@@ -1973,6 +1973,7 @@ $code.=<<___;
 ___
 }
 $code.=<<___;
+.section .rodata
 .align	64
 .Lconst:
 .Lmask24:
@@ -1989,6 +1990,7 @@ ___
 $code.=<<___;
 .asciz	"Poly1305 for x86_64, CRYPTOGAMS by <appro\@openssl.org>"
 .align	16
+.text
 ___
 
 # EXCEPTION_DISPOSITION handler (EXCEPTION_RECORD *rec,ULONG64 frame,
