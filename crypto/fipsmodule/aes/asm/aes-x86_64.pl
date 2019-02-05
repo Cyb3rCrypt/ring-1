@@ -621,6 +621,7 @@ $code.=<<___;
 ___
 
 $code.=<<___;
+.section .rodata
 .align	64
 .LAES_Te:
 ___
@@ -832,6 +833,7 @@ ___
 $code.=<<___;
 .asciz  "AES for x86_64, CRYPTOGAMS by <appro\@openssl.org>"
 .align	64
+.text
 ___
 
 # EXCEPTION_DISPOSITION handler (EXCEPTION_RECORD *rec,ULONG64 frame,

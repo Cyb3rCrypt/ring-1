@@ -59,6 +59,7 @@ $addx = 1;
 
 $code.=<<___;
 .text
+.section .rodata
 .extern	GFp_ia32cap_P
 
 # The polynomial
@@ -80,6 +81,7 @@ $code.=<<___;
 .quad 0xf3b9cac2fc632551, 0xbce6faada7179e84, 0xffffffffffffffff, 0xffffffff00000000
 .LordK:
 .quad 0xccd1c8aaee00bc4f
+.text
 ___
 
 {
