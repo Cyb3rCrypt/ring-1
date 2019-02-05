@@ -584,6 +584,7 @@ _vpaes_preheat:
 ##                     Constants                      ##
 ##                                                    ##
 ########################################################
+.section .rodata
 .type	_vpaes_consts,\@object
 .align	64
 _vpaes_consts:
@@ -639,6 +640,7 @@ _vpaes_consts:
 .Lk_deskew:	# deskew tables: inverts the sbox's "skew"
 	.quad	0x07E4A34047A4E300, 0x1DFEB95A5DBEF91A
 	.quad	0x5F36B5DC83EA6900, 0x2841C2ABF49D1E77
+.text
 ___
 
 if ($win64) {
