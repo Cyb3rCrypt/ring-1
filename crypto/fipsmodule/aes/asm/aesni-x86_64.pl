@@ -1407,10 +1407,16 @@ __aesni_set_encrypt_key:
 .cfi_adjust_cfa_offset	-8
 	ret
 .cfi_endproc
+.size	GFp_${PREFIX}_set_encrypt_key,.-GFp_${PREFIX}_set_encrypt_key
+.size	__aesni_set_encrypt_key,.-__aesni_set_encrypt_key
+
 .LSEH_end_GFp_set_encrypt_key:
 
 .align	16
+.globl .Lkey_expansion_128
+.type  .Lkey_expansion_128,\@abi-omnipotent
 .Lkey_expansion_128:
+.cfi_startproc
 	$movkey	%xmm0,(%rax)
 	lea	16(%rax),%rax
 .Lkey_expansion_128_cold:
@@ -1421,39 +1427,13 @@ __aesni_set_encrypt_key:
 	shufps	\$0b11111111,%xmm1,%xmm1	# critical path
 	xorps	%xmm1,%xmm0
 	ret
-
-.align 16
-.Lkey_expansion_192a:
-	$movkey	%xmm0,(%rax)
-	lea	16(%rax),%rax
-.Lkey_expansion_192a_cold:
-	movaps	%xmm2, %xmm5
-.Lkey_expansion_192b_warm:
-	shufps	\$0b00010000,%xmm0,%xmm4
-	movdqa	%xmm2,%xmm3
-	xorps	%xmm4,%xmm0
-	shufps	\$0b10001100,%xmm0,%xmm4
-	pslldq	\$4,%xmm3
-	xorps	%xmm4,%xmm0
-	pshufd	\$0b01010101,%xmm1,%xmm1	# critical path
-	pxor	%xmm3,%xmm2
-	pxor	%xmm1,%xmm0
-	pshufd	\$0b11111111,%xmm0,%xmm3
-	pxor	%xmm3,%xmm2
-	ret
-
-.align 16
-.Lkey_expansion_192b:
-	movaps	%xmm0,%xmm3
-	shufps	\$0b01000100,%xmm0,%xmm5
-	$movkey	%xmm5,(%rax)
-	shufps	\$0b01001110,%xmm2,%xmm3
-	$movkey	%xmm3,16(%rax)
-	lea	32(%rax),%rax
-	jmp	.Lkey_expansion_192b_warm
+.cfi_endproc
 
 .align	16
+.globl .Lkey_expansion_256a
+.type  .Lkey_expansion_256a,\@abi-omnipotent
 .Lkey_expansion_256a:
+.cfi_startproc
 	$movkey	%xmm2,(%rax)
 	lea	16(%rax),%rax
 .Lkey_expansion_256a_cold:
@@ -1464,9 +1444,13 @@ __aesni_set_encrypt_key:
 	shufps	\$0b11111111,%xmm1,%xmm1	# critical path
 	xorps	%xmm1,%xmm0
 	ret
+.cfi_endproc
 
 .align 16
+.globl .Lkey_expansion_256b
+.type  .Lkey_expansion_256b,\@abi-omnipotent
 .Lkey_expansion_256b:
+.cfi_startproc
 	$movkey	%xmm0,(%rax)
 	lea	16(%rax),%rax
 
@@ -1477,8 +1461,7 @@ __aesni_set_encrypt_key:
 	shufps	\$0b10101010,%xmm1,%xmm1	# critical path
 	xorps	%xmm1,%xmm2
 	ret
-.size	GFp_${PREFIX}_set_encrypt_key,.-GFp_${PREFIX}_set_encrypt_key
-.size	__aesni_set_encrypt_key,.-__aesni_set_encrypt_key
+.cfi_endproc
 ___
 }
 
