@@ -33,6 +33,7 @@ pub(crate) fn features() -> Features {
             target_arch = "x86",
             target_arch = "x86_64"
         ),
+        feature = "cpuid",
         not(target_os = "ios")
     ))]
     {
